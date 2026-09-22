@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inventario',
+    'inventario.apps.InventarioConfig',
 ]
 
 MIDDLEWARE = [
@@ -78,9 +78,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'inventario',
         'USER': 'root',
-        'PASSWORD': '1234',
+        'PASSWORD': 'toor',
         'HOST': 'localhost',
-        'PORT': '3309',
+        'PORT': '3306',
     }
 }
 

@@ -1,0 +1,30 @@
+{% extends 'master.html' %}
+
+{% block title %}Proveedores{% endblock %}
+
+{% block content %}
+<table id="tabla-ropa">
+    <thead>
+        <tr>
+            <th>Modelo</th>
+            <th>Tipo</th>
+            <th>Talla</th>
+            <th>Marca</th>
+            <th>Precio</th>
+            <th>Proveedor</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ropa in prendas %}
+        <tr>
+            <td>{{ ropa.modelo }}</td>
+            <td>{{ ropa.get_tipo_display }}</td>
+            <td>{{ ropa.get_talla_display }}</td>
+            <td>{{ ropa.marca }}</td>
+            <td>{{ ropa.precio }}</td>
+            <td>{{ ropa.proveedor.nombre }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
