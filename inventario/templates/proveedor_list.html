@@ -3,26 +3,20 @@
 {% block title %}Proveedores{% endblock %}
 
 {% block content %}
-<table id="tabla-ropa">
+<table id="tabla-proveedores">
     <thead>
         <tr>
-            <th>Modelo</th>
-            <th>Tipo</th>
-            <th>Talla</th>
-            <th>Marca</th>
-            <th>Precio</th>
-            <th>Proveedor</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
         </tr>
     </thead>
     <tbody>
-        {% for ropa in prendas %}
+        {% for proveedor in object_list %}
         <tr>
-            <td>{{ ropa.modelo }}</td>
-            <td>{{ ropa.get_tipo_display }}</td>
-            <td>{{ ropa.get_talla_display }}</td>
-            <td>{{ ropa.marca }}</td>
-            <td>{{ ropa.precio }}</td>
-            <td>{{ ropa.proveedor.nombre }}</td>
+            <td>{{ proveedor.nombre }}</td>
+            <td>{{ proveedor.telefono }}</td>
+            <td>{{ proveedor.correo }}</td>
         </tr>
         {% endfor %}
     </tbody>
