@@ -32,6 +32,11 @@
                                 {% if request.resolver_match.url_name == 'proveedores' %}aria-current="page"{% endif %}
                                 href="{% url 'proveedores' %}">Proveedores</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'productos' in request.resolver_match.url_name %}active{% endif %}"
+                                {% if 'productos' in request.resolver_match.url_name %}aria-current="page"{% endif %}
+                                href="{% url 'productos' %}">Productos</a>
+                        </li>
                     </ul>
                 </div>
             </div>
