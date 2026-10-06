@@ -1,0 +1,98 @@
+{% extends 'master.html' %}
+
+{% block title %}Registrar venta{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-xl-10">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h1 class="h4 mb-0">Registrar venta</h1>
+            </div>
+            <div class="card-body">
+                {% if form.non_field_errors or formset.non_form_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                    {{ formset.non_form_errors }}
+                </div>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="{{ form.cliente.id_for_label }}" class="form-label">{{ form.cliente.label }}</label>
+                        {{ form.cliente }}
+                        {% if form.cliente.errors %}<div class="text-danger small">{{ form.cliente.errors|striptags }}</div>{% endif %}
+                    </div>
+
+                    {{ formset.management_form }}
+                    <div id="lineas-venta">
+                        {% for item_form in formset %}
+                        <div class="row g-2 align-items-end linea-venta mb-2">
+                            <div class="col-md-8">
+                                <label class="form-label">Producto y color</label>
+                                {{ item_form.inventario }}
+                                {% if item_form.inventario.errors %}<div class="text-danger small">{{ item_form.inventario.errors|striptags }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Cantidad</label>
+                                {{ item_form.cantidad }}
+                                {% if item_form.cantidad.errors %}<div class="text-danger small">{{ item_form.cantidad.errors|striptags }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-outline-danger quitar-linea" title="Quitar línea">×</button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" id="agregar-linea" class="btn btn-outline-primary mb-4">
+                        Agregar producto
+                    </button>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'ventas' %}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-success">Confirmar venta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<template id="linea-vacia">
+    <div class="row g-2 align-items-end linea-venta mb-2">
+        <div class="col-md-8">
+            <label class="form-label">Producto y color</label>
+            {{ formset.empty_form.inventario }}
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Cantidad</label>
+            {{ formset.empty_form.cantidad }}
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-outline-danger quitar-linea" title="Quitar línea">×</button>
+        </div>
+    </div>
+</template>
+<script>
+    const lineas = document.querySelector('#lineas-venta');
+    const totalForms = document.querySelector('#id_form-TOTAL_FORMS');
+    const plantilla = document.querySelector('#linea-vacia').innerHTML;
+
+    document.querySelector('#agregar-linea').addEventListener('click', () => {
+        const index = Number(totalForms.value);
+        lineas.insertAdjacentHTML('beforeend', plantilla.replaceAll('__prefix__', index));
+        totalForms.value = index + 1;
+    });
+
+    lineas.addEventListener('click', (event) => {
+        if (event.target.classList.contains('quitar-linea')) {
+            const filas = lineas.querySelectorAll('.linea-venta');
+            if (filas.length > 1) {
+                event.target.closest('.linea-venta').remove();
+            }
+        }
+    });
+</script>
+{% endblock %}

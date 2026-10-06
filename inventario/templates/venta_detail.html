@@ -1,0 +1,41 @@
+{% extends 'master.html' %}
+
+{% block title %}Venta #{{ venta.id }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Venta #{{ venta.id }}</h2>
+    <a href="{% url 'ventas' %}" class="btn btn-secondary">Volver a ventas</a>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <p class="mb-1"><strong>Cliente:</strong> {{ venta.cliente.nombre }}</p>
+        <p class="mb-1"><strong>Fecha:</strong> {{ venta.fecha|date:"d/m/Y H:i" }}</p>
+        <p class="mb-0"><strong>Total:</strong> ${{ venta.total }}</p>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Color</th>
+                <th>Cantidad</th>
+                <th>Precio unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in venta.detalles.all %}
+            <tr>
+                <td>{{ detalle.inventario.ropa.modelo }}</td>
+                <td>{{ detalle.inventario.color.descripcion }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>${{ detalle.precio_unitario }}</td>
+                <td>${{ detalle.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

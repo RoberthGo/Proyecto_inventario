@@ -1,0 +1,62 @@
+{% extends 'master.html' %}
+
+{% block title %}Catálogo de Colores{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.5/css/dataTables.bootstrap5.css">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Catálogo de Colores</h2>
+</div>
+
+<div class="table-responsive">
+    <table id="tabla-colores" class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Descripción del color</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for color in object_list %}
+            <tr>
+                <td>{{ color.descripcion }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.5/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.3.5/js/dataTables.bootstrap5.js"></script>
+<script>
+    new DataTable('#tabla-colores', {
+        pageLength: 5,
+        layout: {
+            topStart: 'pageLength',
+            topEnd: 'search',
+            bottomStart: 'info',
+            bottomEnd: 'paging'
+        },
+        language: {
+            search: 'Buscar:',
+            lengthMenu: 'Mostrar _MENU_ colores',
+            info: 'Mostrando _START_ a _END_ de _TOTAL_ colores',
+            infoEmpty: 'No hay colores para mostrar',
+            emptyTable: 'No hay colores registrados',
+            zeroRecords: 'No se encontraron colores',
+            paginate: {
+                first: 'Primero',
+                last: 'Último',
+                next: 'Siguiente',
+                previous: 'Anterior'
+            }
+        }
+    });
+</script>
+{% endblock %}
