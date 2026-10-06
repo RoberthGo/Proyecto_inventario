@@ -1,0 +1,66 @@
+{% extends 'master.html' %}
+
+{% block title %}Catálogo de Clientes{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.5/css/dataTables.bootstrap5.css">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Catálogo de Clientes</h2>
+</div>
+
+<div class="table-responsive">
+    <table id="tabla-clientes" class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in object_list %}
+            <tr>
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.correo|default:"-" }}</td>
+                <td>{{ cliente.telefono|default:"-" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.5/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.3.5/js/dataTables.bootstrap5.js"></script>
+<script>
+    new DataTable('#tabla-clientes', {
+        pageLength: 5,
+        layout: {
+            topStart: 'pageLength',
+            topEnd: 'search',
+            bottomStart: 'info',
+            bottomEnd: 'paging'
+        },
+        language: {
+            search: 'Buscar:',
+            lengthMenu: 'Mostrar _MENU_ clientes',
+            info: 'Mostrando _START_ a _END_ de _TOTAL_ clientes',
+            infoEmpty: 'No hay clientes para mostrar',
+            emptyTable: 'No hay clientes registrados',
+            zeroRecords: 'No se encontraron clientes',
+            paginate: {
+                first: 'Primero',
+                last: 'Último',
+                next: 'Siguiente',
+                previous: 'Anterior'
+            }
+        }
+    });
+</script>
+{% endblock %}

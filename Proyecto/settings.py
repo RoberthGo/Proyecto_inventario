@@ -78,9 +78,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'inventario',
         'USER': 'root',
-        'PASSWORD': '1234',
+        'PASSWORD': 'toor',
         'HOST': 'localhost',
-        'PORT': '3309',
+        'PORT': '3306',
     }
 }
 
@@ -120,6 +120,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

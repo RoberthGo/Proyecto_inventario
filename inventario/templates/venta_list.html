@@ -1,0 +1,59 @@
+{% extends 'master.html' %}
+
+{% block title %}Ventas{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.5/css/dataTables.bootstrap5.css">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Ventas</h2>
+    <a href="{% url 'venta-nueva' %}" class="btn btn-success">Registrar venta</a>
+</div>
+<div class="table-responsive">
+    <table id="tabla-ventas" class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Folio</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venta in ventas %}
+            <tr>
+                <td>#{{ venta.id }}</td>
+                <td>{{ venta.fecha|date:"d/m/Y H:i" }}</td>
+                <td>{{ venta.cliente.nombre }}</td>
+                <td>${{ venta.total }}</td>
+                <td><a href="{% url 'venta-detalle' venta.id %}" class="btn btn-sm btn-primary">Ver detalle</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.5/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.3.5/js/dataTables.bootstrap5.js"></script>
+<script>
+    new DataTable('#tabla-ventas', {
+        pageLength: 10,
+        language: {
+            search: 'Buscar:',
+            lengthMenu: 'Mostrar _MENU_ ventas',
+            info: 'Mostrando _START_ a _END_ de _TOTAL_ ventas',
+            infoEmpty: 'No hay ventas para mostrar',
+            emptyTable: 'No hay ventas registradas',
+            zeroRecords: 'No se encontraron ventas',
+            paginate: { first: 'Primero', last: 'Último', next: 'Siguiente', previous: 'Anterior' }
+        }
+    });
+</script>
+{% endblock %}
