@@ -51,7 +51,7 @@ class VentaForm(forms.Form):
     def __init__(self, *args, clientes=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cliente'].queryset = clientes if clientes is not None else Cliente.objects.all()
-        self.fields['cliente'].widget.attrs['class'] = 'form-select'
+        self.fields['cliente'].widget.attrs['class'] = 'for m-select'
 
 
 class VentaItemForm(forms.Form):

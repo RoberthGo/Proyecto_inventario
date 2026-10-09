@@ -73,6 +73,12 @@ class RopaListView(LoginRequiredMixin, generic.ListView):
             total_inventario=Coalesce(Sum('inventarios__unidades'), 0)
         ).select_related('proveedor')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['puede_editar_inventario'] = puede_actualizar_inventario(self.request.user)
+        context['puede_agregar_ropa'] = es_administrador(self.request.user)
+        return context
+
 
 class RopaCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = Ropa

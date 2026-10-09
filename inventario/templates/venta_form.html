@@ -80,8 +80,20 @@
     const totalForms = document.querySelector('#id_form-TOTAL_FORMS');
     const plantilla = document.querySelector('#linea-vacia').innerHTML;
 
+    function reindexarLineas() {
+        const filas = lineas.querySelectorAll('.linea-venta');
+        filas.forEach((fila, index) => {
+            fila.querySelectorAll('input, select, label').forEach((el) => {
+                if (el.name) el.name = el.name.replace(/form-\d+-/, `form-${index}-`);
+                if (el.id) el.id = el.id.replace(/id_form-\d+-/, `id_form-${index}-`);
+                if (el.htmlFor) el.htmlFor = el.htmlFor.replace(/id_form-\d+-/, `id_form-${index}-`);
+            });
+        });
+        totalForms.value = filas.length;
+    }
+
     document.querySelector('#agregar-linea').addEventListener('click', () => {
-        const index = Number(totalForms.value);
+        const index = lineas.querySelectorAll('.linea-venta').length;
         lineas.insertAdjacentHTML('beforeend', plantilla.replaceAll('__prefix__', index));
         totalForms.value = index + 1;
     });
@@ -91,6 +103,7 @@
             const filas = lineas.querySelectorAll('.linea-venta');
             if (filas.length > 1) {
                 event.target.closest('.linea-venta').remove();
+                reindexarLineas();
             }
         }
     });

@@ -24,40 +24,36 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page" {% endif %}
-                            href="{% url 'home' %}">Inicio</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %} href="{% url 'home' %}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'proveedores' %}active{% endif %}"
-                            {% if request.resolver_match.url_name == 'proveedores' %}aria-current="page" {% endif %}
-                            href="{% url 'proveedores' %}">Proveedores</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'proveedores' %}active{% endif %}" {% if request.resolver_match.url_name == 'proveedores' %}aria-current="page"{% endif %} href="{% url 'proveedores' %}">Proveedores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'clientes' %}active{% endif %}"
-                            {% if request.resolver_match.url_name == 'clientes' %}aria-current="page" {% endif %}
-                            href="{% url 'clientes' %}">Catálogo de Clientes</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'clientes' %}active{% endif %}" {% if request.resolver_match.url_name == 'clientes' %}aria-current="page"{% endif %} href="{% url 'clientes' %}">Catálogo de Clientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'colores' %}active{% endif %}"
-                            {% if request.resolver_match.url_name == 'colores' %}aria-current="page" {% endif %}
-                            href="{% url 'colores' %}">Catálogo de Colores</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'colores' %}active{% endif %}" {% if request.resolver_match.url_name == 'colores' %}aria-current="page"{% endif %} href="{% url 'colores' %}">Catálogo de Colores</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if 'productos' in request.resolver_match.url_name or 'catalogo' in request.resolver_match.url_name %}active{% endif %}"
-                            {% if 'productos' in request.resolver_match.url_name or 'catalogo' in request.resolver_match.url_name %}aria-current="page" {% endif %}
-                            href="{% url 'productos' %}">Catálogo de Ropa</a>
+                        <a class="nav-link {% if 'productos' in request.resolver_match.url_name or 'catalogo' in request.resolver_match.url_name %}active{% endif %}" {% if 'productos' in request.resolver_match.url_name or 'catalogo' in request.resolver_match.url_name %}aria-current="page"{% endif %} href="{% url 'productos' %}">Catálogo de Ropa</a>
                     </li>
+                    {% if user.is_staff or user.groups.first.name == 'Cajero' %}
                     <li class="nav-item">
-                        <a class="nav-link {% if 'venta' in request.resolver_match.url_name %}active{% endif %}"
-                            {% if 'venta' in request.resolver_match.url_name %}aria-current="page" {% endif %}
-                            href="{% url 'ventas' %}">Ventas</a>
+                        <a class="nav-link {% if 'venta' in request.resolver_match.url_name %}active{% endif %}" {% if 'venta' in request.resolver_match.url_name %}aria-current="page"{% endif %} href="{% url 'ventas' %}">Ventas</a>
                     </li>
+                    {% endif %}
+                    {% if user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'admin' in request.resolver_match.url_name %}active{% endif %}" {% if 'admin' in request.resolver_match.url_name %}aria-current="page"{% endif %} href="{% url 'admin:index' %}">Admin</a>
+                    </li>
+                    {% endif %}
                 </ul>
                 {% if user.is_authenticated %}
                 <div class="d-flex align-items-center gap-3">
                     <span class="navbar-text">
                         {{ user.get_username }}
-                        {% if user.is_staff %}<span class="badge text-bg-warning ms-1">Administrador</span>{% else %}<span class="badge text-bg-secondary ms-1">Usuario</span>{% endif %}
+                        {% if user.is_staff %}<span class="badge text-bg-warning ms-1">Administrador</span>{% elif user.groups.all %}<span class="badge text-bg-info ms-1">{{ user.groups.first.name }}</span>{% else %}<span class="badge text-bg-secondary ms-1">Usuario</span>{% endif %}
                     </span>
                     <form method="post" action="{% url 'logout' %}" class="m-0">
                         {% csrf_token %}
